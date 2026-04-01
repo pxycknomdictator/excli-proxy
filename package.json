@@ -1,0 +1,51 @@
+{
+    "name": "@excli/proxy",
+    "version": "1.0.0",
+    "description": "A CLI tool for configuring Web Servers in your project.",
+    "types": "dist/index.d.mts",
+    "main": "dist/index.mjs",
+    "scripts": {
+        "build": "tsdown",
+        "format": "prettier --write .",
+        "start": "node dist/index.mjs",
+        "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+        "prepublishOnly": "npm run build",
+        "prepare": "husky"
+    },
+    "keywords": [
+        "nginx",
+        "caddy",
+        "reverse-proxy",
+        "web",
+        "server",
+        "express",
+        "node",
+        "excli"
+    ],
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "bin": {
+        "excli-proxy": "./dist/index.mjs"
+    },
+    "author": "Noman <pxycknomdictator@gmail.com>",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pxycknomdictator/excli-proxy.git"
+    },
+    "bugs": {
+        "url": "https://github.com/pxycknomdictator/excli-proxy/issues"
+    },
+    "type": "module",
+    "devDependencies": {
+        "@types/node": "^25.5.0",
+        "husky": "^9.1.7",
+        "prettier": "^3.8.1",
+        "tsdown": "^0.21.7",
+        "typescript": "^6.0.2"
+    },
+    "dependencies": {
+        "@clack/prompts": "^1.2.0"
+    }
+}

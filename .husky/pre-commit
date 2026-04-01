@@ -1,0 +1,2 @@
+tsc --noEmit
+npm run format:check

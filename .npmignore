@@ -1,0 +1,12 @@
+.git/
+.husky/
+.vscode/
+node_modules/
+src/
+.gitignore
+.prettierignore
+.prettierrc
+pnpm-lock.yaml
+tsconfig.json
+tsdown.config.ts
+.npmignore
