@@ -1,5 +1,14 @@
+import { cp } from "node:fs/promises";
 import { cancel } from "@clack/prompts";
-import type { INTERACTIVE_PROMPTS } from "../types";
+import type { COPY_FN_PROPS, INTERACTIVE_PROMPTS } from "../types";
+
+export async function copy({ copyPath, targetDir }: COPY_FN_PROPS) {
+    try {
+        await cp(copyPath, targetDir, { recursive: true });
+    } catch (error) {
+        throw new Error(`Failed to copy: ${error}`);
+    }
+}
 
 export function generateOptions(options: INTERACTIVE_PROMPTS[]) {
     return options.map(({ label, emoji, value }: INTERACTIVE_PROMPTS) => ({

@@ -5,3 +5,8 @@ export type INTERACTIVE_PROMPTS = {
     emoji: string;
     value: string;
 };
+
+export type COPY_FN_PROPS = {
+    copyPath: string;
+    targetDir: string;
+};
