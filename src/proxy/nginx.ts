@@ -1,5 +1,7 @@
+import type { DockerComposeConfig, NGINX_MODE } from "../types";
+
 export function dockerNginxConfig() {
-    return {
+    const dockerNginx: DockerComposeConfig = {
         services: {
             nginx: {
                 image: "nginx:1.29.7",
@@ -11,4 +13,28 @@ export function dockerNginxConfig() {
             },
         },
     };
+
+    return dockerNginx;
+}
+
+export function nodeServerConfig(mode: NGINX_MODE) {
+    const dockerServerConfig: DockerComposeConfig = {
+        services: {
+            server: {
+                build: {
+                    context: ".",
+                    dockerfile: "Dockerfile",
+                },
+                env_file: [".env"],
+                networks: ["app_network"],
+                depends_on: ["database"],
+            },
+        },
+    };
+
+    if (mode === "reverse_proxy") {
+        dockerServerConfig.services.server!.container_name = "nginx";
+    }
+
+    return dockerServerConfig;
 }
