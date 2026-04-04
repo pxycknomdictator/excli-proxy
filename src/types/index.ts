@@ -26,3 +26,8 @@ export type DockerComposeConfig = {
         };
     };
 };
+
+export type GenerateFileArgs = {
+    fileLocation: string;
+    fileContent: string;
+};
