@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { cp } from "node:fs/promises";
 import { cancel } from "@clack/prompts";
 import type { COPY_FN_PROPS, INTERACTIVE_PROMPTS } from "../types";
@@ -9,6 +10,8 @@ export async function copy({ copyPath, targetDir }: COPY_FN_PROPS) {
         throw new Error(`Failed to copy: ${error}`);
     }
 }
+
+export const isFileExists = (location: string) => existsSync(location);
 
 export function generateOptions(options: INTERACTIVE_PROMPTS[]) {
     return options.map(({ label, emoji, value }: INTERACTIVE_PROMPTS) => ({
