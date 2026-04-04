@@ -1,5 +1,5 @@
 export type WEB_SERVER = "nginx" | "caddy";
-export type NGINX_MODE = "reverse_proxy" | "load_balancing";
+export type WEB_SERVER_MODE = "reverse_proxy" | "load_balancing";
 
 export type INTERACTIVE_PROMPTS = {
     label: string;

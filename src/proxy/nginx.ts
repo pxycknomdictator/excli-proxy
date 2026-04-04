@@ -1,4 +1,4 @@
-import type { DockerComposeConfig, NGINX_MODE } from "../types";
+import type { DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
 export function dockerNginxConfig() {
     const dockerNginx: DockerComposeConfig = {
@@ -17,7 +17,7 @@ export function dockerNginxConfig() {
     return dockerNginx;
 }
 
-export function nodeServerConfig(mode: NGINX_MODE) {
+export function nodeServerConfig(mode: WEB_SERVER_MODE) {
     const dockerServerConfig: DockerComposeConfig = {
         services: {
             server: {
