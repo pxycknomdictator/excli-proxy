@@ -4,10 +4,7 @@ import type { INTERACTIVE_PROMPTS, WebServerList } from "../types";
 
 const rootDir = process.cwd();
 
-const nginxConf = "nginx.conf";
 const composeYaml = "compose.yaml";
-
-export const nginxConfLocation = join(rootDir, nginxConf);
 export const composeYamlLocation = join(rootDir, composeYaml);
 
 export const BANNER_FONT = "Standard";
