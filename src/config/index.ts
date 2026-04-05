@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { setupCaddy, setupNginx } from "../proxy";
-import type { INTERACTIVE_PROMPTS } from "../types";
+import type { INTERACTIVE_PROMPTS, WebServerList } from "../types";
 
 const rootDir = process.cwd();
 
@@ -22,7 +22,7 @@ export const USES_OF_WEB_SERVER: INTERACTIVE_PROMPTS[] = [
     { label: "Load Balancing", emoji: "⚖️", value: "load_balancing" },
 ];
 
-export const webServerList = {
+export const webServerList: WebServerList = {
     nginx: setupNginx,
     caddy: setupCaddy,
 };

@@ -36,3 +36,8 @@ export type GenerateFileArgs = {
     fileLocation: string;
     fileContent: string;
 };
+
+export type WebServerList = {
+    nginx: (config: Config) => Promise<void>;
+    caddy: (config: Config) => Promise<void>;
+};
