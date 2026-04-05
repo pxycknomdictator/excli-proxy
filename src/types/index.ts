@@ -1,6 +1,11 @@
 export type WEB_SERVER = "nginx" | "caddy";
 export type WEB_SERVER_MODE = "reverse_proxy" | "load_balancing";
 
+export type Config = {
+    webServer: WEB_SERVER;
+    webServerMode: WEB_SERVER_MODE;
+};
+
 export type INTERACTIVE_PROMPTS = {
     label: string;
     emoji: string;
