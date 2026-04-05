@@ -30,6 +30,9 @@ export type DockerComposeConfig = {
             depends_on?: string[];
         };
     };
+    networks?: {
+        app_network: {};
+    };
 };
 
 export type GenerateFileArgs = {
