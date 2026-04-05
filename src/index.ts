@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
+import { getUserInputs } from "./cli";
+
 async function main() {
-    console.log("Hello @excli/proxy");
+    const config = await getUserInputs();
+    console.log({ config });
 }
 
 main().catch((error) => {
