@@ -1,7 +1,9 @@
-import yaml from "js-yaml";
+import { loadYaml, dumpYaml } from "../utils";
+import { isFileExists, write } from "../utils";
+import { composeYamlLocation } from "../config";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
-export function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE): string {
+function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
     const nginx: DockerComposeConfig = {
         services: {
             nginx: {
@@ -40,9 +42,44 @@ export function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE): string {
         },
     };
 
-    return yaml.dump(merged, { indent: 4 });
+    return merged;
 }
 
 export async function setupNginx(config: Config) {
-    console.log("Nginx", config);
+    const composeContent = generateNginxDockerComposeYaml(config.webServerMode);
+
+    if (!isFileExists(composeYamlLocation)) {
+        composeContent.networks = { app_network: {} };
+        const composeYaml = dumpYaml(composeContent);
+
+        await write({
+            fileLocation: composeYamlLocation,
+            fileContent: composeYaml,
+        });
+    } else {
+        const fileObject = (await loadYaml(composeYamlLocation)) as any;
+
+        if (!fileObject.networks) {
+            fileObject.networks = { app_network: {} };
+        } else {
+            if (!("app_network" in fileObject.networks)) {
+                fileObject.networks = {
+                    ...fileObject.networks,
+                    app_network: {},
+                };
+            }
+        }
+
+        fileObject.services = {
+            ...(fileObject.services || {}),
+            ...composeContent.services,
+        };
+
+        const updatedYaml = dumpYaml(fileObject);
+
+        await write({
+            fileLocation: composeYamlLocation,
+            fileContent: updatedYaml,
+        });
+    }
 }
