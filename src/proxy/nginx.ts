@@ -10,7 +10,7 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 image: "nginx:1.29.7",
                 container_name: "nginx",
                 ports: ["80:80"],
-                volumes: ["./nginx.conf:/etc/nginx/nginx.conf:ro"],
+                volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"],
                 depends_on: ["server", "database"],
                 networks: ["app_network"],
             },
