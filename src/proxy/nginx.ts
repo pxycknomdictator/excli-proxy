@@ -1,7 +1,8 @@
+import yaml from "js-yaml";
 import type { DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
-export function dockerNginxConfig() {
-    const dockerNginx: DockerComposeConfig = {
+export function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE): string {
+    const nginx: DockerComposeConfig = {
         services: {
             nginx: {
                 image: "nginx:1.29.7",
@@ -14,11 +15,7 @@ export function dockerNginxConfig() {
         },
     };
 
-    return dockerNginx;
-}
-
-export function nodeServerConfig(mode: WEB_SERVER_MODE) {
-    const dockerServerConfig: DockerComposeConfig = {
+    const server: DockerComposeConfig = {
         services: {
             server: {
                 build: {
@@ -33,8 +30,15 @@ export function nodeServerConfig(mode: WEB_SERVER_MODE) {
     };
 
     if (mode === "reverse_proxy") {
-        dockerServerConfig.services.server!.container_name = "nginx";
+        server.services.server!.container_name = "server";
     }
 
-    return dockerServerConfig;
+    const merged: DockerComposeConfig = {
+        services: {
+            ...nginx.services,
+            ...server.services,
+        },
+    };
+
+    return yaml.dump(merged, { indent: 4 });
 }
