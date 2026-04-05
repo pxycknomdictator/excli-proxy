@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { setupCaddy, setupNginx } from "../proxy";
 import type { INTERACTIVE_PROMPTS } from "../types";
 
 const rootDir = process.cwd();
@@ -20,3 +21,8 @@ export const USES_OF_WEB_SERVER: INTERACTIVE_PROMPTS[] = [
     { label: "Reverse Proxy", emoji: "🚦", value: "reverse_proxy" },
     { label: "Load Balancing", emoji: "⚖️", value: "load_balancing" },
 ];
+
+export const webServerList = {
+    nginx: setupNginx,
+    caddy: setupCaddy,
+};

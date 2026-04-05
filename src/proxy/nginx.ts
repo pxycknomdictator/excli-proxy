@@ -1,5 +1,5 @@
 import yaml from "js-yaml";
-import type { DockerComposeConfig, WEB_SERVER_MODE } from "../types";
+import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
 export function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE): string {
     const nginx: DockerComposeConfig = {
@@ -41,4 +41,8 @@ export function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE): string {
     };
 
     return yaml.dump(merged, { indent: 4 });
+}
+
+export async function setupNginx(config: Config) {
+    console.log("Nginx", config);
 }
