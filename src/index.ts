@@ -5,12 +5,12 @@ import { fileURLToPath } from "node:url";
 import { getUserInputs } from "./cli";
 import { setupWebServer } from "./core";
 
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = dirname(__filename);
-
 async function main() {
+    const underScoreFilename = fileURLToPath(import.meta.url);
+    const underScoreDirname = dirname(underScoreFilename);
+
     const config = await getUserInputs();
-    await setupWebServer(config);
+    await setupWebServer(config, underScoreDirname);
 }
 
 main().catch((error) => {
