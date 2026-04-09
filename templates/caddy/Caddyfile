@@ -1,0 +1,19 @@
+{
+    admin off
+}
+
+:80 {
+    reverse_proxy server:3000 {
+        lb_policy round_robin
+
+        header_up Host              {host}
+        header_up X-Real-IP         {remote_host}
+        header_up X-Forwarded-For   {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        transport http {
+            dial_timeout            60s
+            response_header_timeout 60s
+        }
+    }
+}
