@@ -1,6 +1,5 @@
-import { loadYaml, dumpYaml } from "../utils";
-import { isFileExists, write } from "../utils";
 import { composeYamlLocation } from "../config";
+import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
 function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
