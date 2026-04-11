@@ -1,4 +1,4 @@
-import { composeYamlLocation } from "../config";
+import { composeYamlLocation, server } from "../config";
 import { dumpYaml, isFileExists, loadYaml, write } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -15,24 +15,6 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
                     server: {
                         condition: "service_started",
                     },
-                    database: {
-                        condition: "service_healthy",
-                    },
-                },
-            },
-        },
-    };
-
-    const server: DockerComposeConfig = {
-        services: {
-            server: {
-                build: {
-                    context: ".",
-                    dockerfile: "Dockerfile",
-                },
-                env_file: [".env"],
-                networks: ["app_network"],
-                depends_on: {
                     database: {
                         condition: "service_healthy",
                     },

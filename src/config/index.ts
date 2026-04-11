@@ -1,6 +1,10 @@
 import { join } from "node:path";
 import { setupCaddy, setupNginx } from "../proxy";
-import type { INTERACTIVE_PROMPTS, WebServerList } from "../types";
+import type {
+    DockerComposeConfig,
+    INTERACTIVE_PROMPTS,
+    WebServerList,
+} from "../types";
 
 const rootDir = process.cwd();
 
@@ -22,4 +26,22 @@ export const USES_OF_WEB_SERVER: INTERACTIVE_PROMPTS[] = [
 export const webServerList: WebServerList = {
     nginx: setupNginx,
     caddy: setupCaddy,
+};
+
+export const server: DockerComposeConfig = {
+    services: {
+        server: {
+            build: {
+                context: ".",
+                dockerfile: "Dockerfile",
+            },
+            env_file: [".env"],
+            networks: ["app_network"],
+            depends_on: {
+                database: {
+                    condition: "service_healthy",
+                },
+            },
+        },
+    },
 };
