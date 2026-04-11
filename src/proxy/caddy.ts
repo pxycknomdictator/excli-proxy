@@ -10,8 +10,15 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 container_name: "caddy",
                 ports: ["80:80"],
                 volumes: ["./caddy/Caddyfile:/etc/caddy/Caddyfile:ro"],
-                depends_on: ["server", "database"],
                 networks: ["app_network"],
+                depends_on: {
+                    server: {
+                        condition: "service_started",
+                    },
+                    database: {
+                        condition: "service_healthy",
+                    },
+                },
             },
         },
     };
@@ -25,7 +32,11 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 },
                 env_file: [".env"],
                 networks: ["app_network"],
-                depends_on: ["database"],
+                depends_on: {
+                    database: {
+                        condition: "service_healthy",
+                    },
+                },
             },
         },
     };

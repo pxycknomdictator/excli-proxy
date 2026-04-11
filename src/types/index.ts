@@ -27,7 +27,10 @@ export type DockerComposeConfig = {
             env_file?: string[];
             networks?: string[];
             volumes?: string[];
-            depends_on?: string[];
+            depends_on?: {
+                server?: { condition: string };
+                database?: { condition: string };
+            };
         };
     };
     networks?: {
