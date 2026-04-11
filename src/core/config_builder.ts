@@ -4,6 +4,7 @@ import { copy } from "../utils";
 import { webServerList } from "../config";
 import { validateTemplate } from "./validators";
 import type { Config } from "../types";
+import { showCompletionMessage } from "../cli/display";
 
 export async function setupWebServer(
     config: Config,
@@ -24,4 +25,5 @@ export async function setupWebServer(
     ]);
 
     await server(config);
+    showCompletionMessage(config);
 }
