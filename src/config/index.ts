@@ -35,6 +35,7 @@ export const server: DockerComposeConfig = {
                 context: ".",
                 dockerfile: "Dockerfile",
             },
+            restart: "unless-stopped",
             env_file: [".env"],
             networks: ["app_network"],
             depends_on: {

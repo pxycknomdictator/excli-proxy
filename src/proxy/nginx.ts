@@ -8,6 +8,7 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
             nginx: {
                 image: "nginx:1.29.7",
                 container_name: "nginx",
+                restart: "unless-stopped",
                 ports: ["80:80"],
                 volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"],
                 networks: ["app_network"],

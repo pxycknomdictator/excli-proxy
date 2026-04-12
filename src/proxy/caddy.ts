@@ -8,6 +8,7 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
             caddy: {
                 image: "caddy:2.11.2",
                 container_name: "caddy",
+                restart: "unless-stopped",
                 ports: ["80:80"],
                 volumes: ["./caddy/Caddyfile:/etc/caddy/Caddyfile:ro"],
                 networks: ["app_network"],
