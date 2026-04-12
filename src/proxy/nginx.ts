@@ -1,4 +1,4 @@
-import { composeYamlLocation, server } from "../config";
+import { composeYamlLocation, dockerServerConfig } from "../config";
 import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -23,6 +23,8 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
             },
         },
     };
+
+    const server = dockerServerConfig();
 
     if (mode === "reverse_proxy") {
         server.services.server!.container_name = "server";

@@ -28,21 +28,24 @@ export const webServerList: WebServerList = {
     caddy: setupCaddy,
 };
 
-export const server: DockerComposeConfig = {
-    services: {
-        server: {
-            build: {
-                context: ".",
-                dockerfile: "Dockerfile",
-            },
-            restart: "unless-stopped",
-            env_file: [".env"],
-            networks: ["app_network"],
-            depends_on: {
-                database: {
-                    condition: "service_healthy",
+export function dockerServerConfig(): DockerComposeConfig {
+    const server: DockerComposeConfig = {
+        services: {
+            server: {
+                build: {
+                    context: ".",
+                    dockerfile: "Dockerfile",
+                },
+                restart: "unless-stopped",
+                env_file: [".env"],
+                networks: ["app_network"],
+                depends_on: {
+                    database: {
+                        condition: "service_healthy",
+                    },
                 },
             },
         },
-    },
-};
+    };
+    return server;
+}
