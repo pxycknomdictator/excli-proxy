@@ -1,7 +1,7 @@
 {
     "name": "@excli/proxy",
     "version": "1.0.0",
-    "description": "A CLI tool for configuring Web Servers in your project.",
+    "description": "A powerful reverse proxy and load balancing configuration generator for Express.js applications.",
     "types": "dist/index.d.mts",
     "main": "dist/index.mjs",
     "scripts": {
