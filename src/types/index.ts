@@ -1,4 +1,4 @@
-export type WEB_SERVER = "nginx" | "caddy";
+export type WEB_SERVER = "nginx" | "caddy" | "traefik";
 export type WEB_SERVER_MODE = "reverse_proxy" | "load_balancing";
 
 export type Config = {
@@ -48,4 +48,5 @@ export type GenerateFileArgs = {
 export type WebServerList = {
     nginx: (config: Config) => Promise<void>;
     caddy: (config: Config) => Promise<void>;
+    traefik: (config: Config) => Promise<void>;
 };

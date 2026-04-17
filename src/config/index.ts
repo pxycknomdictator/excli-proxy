@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { setupCaddy, setupNginx } from "../proxy";
+import { setupCaddy, setupNginx, setupTraefik } from "../proxy";
 import type {
     DockerComposeConfig,
     INTERACTIVE_PROMPTS,
@@ -26,6 +26,7 @@ export const USES_OF_WEB_SERVER: INTERACTIVE_PROMPTS[] = [
 export const webServerList: WebServerList = {
     nginx: setupNginx,
     caddy: setupCaddy,
+    traefik: setupTraefik,
 };
 
 export function dockerServerConfig(): DockerComposeConfig {
