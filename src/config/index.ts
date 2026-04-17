@@ -41,11 +41,7 @@ export function dockerServerConfig(): DockerComposeConfig {
                 restart: "unless-stopped",
                 env_file: [".env"],
                 networks: ["app_network"],
-                depends_on: {
-                    database: {
-                        condition: "service_healthy",
-                    },
-                },
+                depends_on: { database: { condition: "service_healthy" } },
             },
         },
     };

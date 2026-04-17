@@ -12,14 +12,7 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 ports: ["80:80"],
                 volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"],
                 networks: ["app_network"],
-                depends_on: {
-                    server: {
-                        condition: "service_started",
-                    },
-                    database: {
-                        condition: "service_healthy",
-                    },
-                },
+                depends_on: { server: { condition: "service_started" } },
             },
         },
     };

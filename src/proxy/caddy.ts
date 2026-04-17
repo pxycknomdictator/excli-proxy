@@ -12,14 +12,7 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 ports: ["80:80"],
                 volumes: ["./caddy/Caddyfile:/etc/caddy/Caddyfile:ro"],
                 networks: ["app_network"],
-                depends_on: {
-                    server: {
-                        condition: "service_started",
-                    },
-                    database: {
-                        condition: "service_healthy",
-                    },
-                },
+                depends_on: { server: { condition: "service_started" } },
             },
         },
     };

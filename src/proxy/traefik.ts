@@ -3,7 +3,7 @@ import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
 function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
-    const nginx: DockerComposeConfig = {
+    const traefik: DockerComposeConfig = {
         services: {
             traefik: {
                 image: "traefik:v3.6",
@@ -15,14 +15,7 @@ function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
                     "./traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro",
                 ],
                 networks: ["app_network"],
-                depends_on: {
-                    server: {
-                        condition: "service_started",
-                    },
-                    database: {
-                        condition: "service_healthy",
-                    },
-                },
+                depends_on: { server: { condition: "service_started" } },
             },
         },
     };
@@ -42,7 +35,7 @@ function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
 
     const merged: DockerComposeConfig = {
         services: {
-            ...nginx.services,
+            ...traefik.services,
             ...server.services,
         },
     };
