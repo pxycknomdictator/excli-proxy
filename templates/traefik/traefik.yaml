@@ -1,0 +1,20 @@
+api:
+    insecure: true
+
+entryPoints:
+    web:
+        address: ":80"
+        forwardedHeaders:
+            trustedIPs:
+                - "127.0.0.1/32"
+
+providers:
+    docker:
+        exposedByDefault: false
+
+serversTransports:
+    default:
+        forwardingTimeouts:
+            dialTimeout: 60s
+            responseHeaderTimeout: 60s
+            idleConnTimeout: 60s
