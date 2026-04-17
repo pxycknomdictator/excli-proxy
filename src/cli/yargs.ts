@@ -7,12 +7,17 @@ export function yargsWebServerInput(): Config {
         .option("nginx", {
             type: "boolean",
             description: "Use Nginx as the web server",
-            conflicts: "caddy",
+            conflicts: ["caddy", "traefik"],
         })
         .option("caddy", {
             type: "boolean",
             description: "Use Caddy as the web server",
-            conflicts: "nginx",
+            conflicts: ["nginx", "traefik"],
+        })
+        .option("traefik", {
+            type: "boolean",
+            description: "Use Traefik as the web server",
+            conflicts: ["nginx", "caddy"],
         })
         .option("reverse-proxy", {
             type: "boolean",
@@ -25,9 +30,9 @@ export function yargsWebServerInput(): Config {
             conflicts: "reverse-proxy",
         })
         .check((argv) => {
-            if (!argv.nginx && !argv.caddy) {
+            if (!argv.nginx && !argv.caddy && !argv.traefik) {
                 throw new Error(
-                    "You must specify a web server: --nginx or --caddy",
+                    "You must specify a web server: --nginx, --caddy or --traefik",
                 );
             }
             if (!argv["reverse-proxy"] && !argv["load-balancing"]) {
@@ -44,6 +49,7 @@ export function yargsWebServerInput(): Config {
     let webServer: Config["webServer"];
     if (argv.nginx) webServer = "nginx";
     else if (argv.caddy) webServer = "caddy";
+    else if (argv.traefik) webServer = "traefik";
     else throw new Error("Invalid web server");
 
     let webServerMode: Config["webServerMode"];
