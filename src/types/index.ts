@@ -32,6 +32,7 @@ export type DockerComposeConfig = {
                 server?: { condition: string };
                 database?: { condition: string };
             };
+            labels?: string[];
         };
     };
     networks?: {
