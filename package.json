@@ -1,6 +1,6 @@
 {
     "name": "@excli/proxy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A powerful reverse proxy and load balancing configuration generator for Express.js applications.",
     "types": "dist/index.d.mts",
     "main": "dist/index.mjs",
