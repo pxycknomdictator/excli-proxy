@@ -1,4 +1,4 @@
-### Proxy CLI Tool
+## Proxy CLI Tool
 
 A powerful reverse proxy and load balancing configuration generator for Express.js applications.
 
@@ -11,13 +11,13 @@ A powerful reverse proxy and load balancing configuration generator for Express.
 
 ### Why Choose This Generator?
 
-A CLI tool for generating reverse proxy and load balancing configurations for Express.js applications — with support for Nginx and Caddy, and two simple modes to get you running fast.
+A CLI tool for generating reverse proxy and load balancing configurations for Express.js applications — with support for Nginx, Caddy, and Traefik, and two simple modes to get you running fast.
 
 **Built for modern backend development:**
 
 - 🔀 Reverse proxy configuration for Express.js apps
 - ⚖️ Load balancing across multiple Express instances
-- 🌐 Nginx and Caddy support
+- 🌐 Nginx, Caddy, and Traefik support
 - 🛡️ Security headers included by default
 - 🐳 Docker Compose ready
 - 🎯 **Interactive mode** for guided setup
@@ -37,7 +37,7 @@ npx @excli/proxy
 
 The interactive mode will guide you through selecting:
 
-- Proxy server (Nginx or Caddy)
+- Proxy server (Nginx, Caddy, or Traefik)
 - Mode (Reverse Proxy or Load Balancing)
 
 #### Quick Setup with Flags
@@ -50,6 +50,9 @@ npx @excli/proxy --nginx --reverse-proxy
 
 # Caddy load balancing
 npx @excli/proxy --caddy --load-balancing
+
+# Traefik reverse proxy
+npx @excli/proxy --traefik --reverse-proxy
 ```
 
 **Or install globally:**
@@ -63,6 +66,7 @@ excli-proxy
 # With flags
 excli-proxy --nginx --reverse-proxy
 excli-proxy --caddy --load-balancing
+excli-proxy --traefik --reverse-proxy
 ```
 
 #### Requirements
@@ -98,6 +102,12 @@ npx @excli/proxy --caddy --reverse-proxy
 
 # Caddy with load balancing
 npx @excli/proxy --caddy --load-balancing
+
+# Traefik with reverse proxy
+npx @excli/proxy --traefik --reverse-proxy
+
+# Traefik with load balancing
+npx @excli/proxy --traefik --load-balancing
 ```
 
 ---
@@ -108,6 +118,7 @@ npx @excli/proxy --caddy --load-balancing
 
 - `--nginx` - Use Nginx as the proxy server
 - `--caddy` - Use Caddy as the proxy server
+- `--traefik` - Use Traefik as the proxy server
 
 #### Mode Flags
 
@@ -121,6 +132,8 @@ npx @excli/proxy --nginx --reverse-proxy
 npx @excli/proxy --nginx --load-balancing
 npx @excli/proxy --caddy --reverse-proxy
 npx @excli/proxy --caddy --load-balancing
+npx @excli/proxy --traefik --reverse-proxy
+npx @excli/proxy --traefik --load-balancing
 ```
 
 ---
@@ -129,17 +142,18 @@ npx @excli/proxy --caddy --load-balancing
 
 #### Generated Files
 
-- **nginx.conf / Caddyfile** - Production-ready proxy configuration
+- **nginx.conf / Caddyfile / traefik.yaml** - Production-ready proxy configuration
 - **compose.yaml** - Multi-service orchestration for your proxy + Express instances
 
 ---
 
 #### Proxy Server Options
 
-| Proxy     | SSL/TLS                | Modes                         | Config File  |
-| --------- | ---------------------- | ----------------------------- | ------------ |
-| **Nginx** | Manual cert config     | reverse-proxy, load-balancing | `nginx.conf` |
-| **Caddy** | Automatic HTTPS (ACME) | reverse-proxy, load-balancing | `Caddyfile`  |
+| Proxy       | SSL/TLS                | Modes                         | Config File    |
+| ----------- | ---------------------- | ----------------------------- | -------------- |
+| **Nginx**   | Manual cert config     | reverse-proxy, load-balancing | `nginx.conf`   |
+| **Caddy**   | Automatic HTTPS (ACME) | reverse-proxy, load-balancing | `Caddyfile`    |
+| **Traefik** | Automatic HTTPS (ACME) | reverse-proxy, load-balancing | `traefik.yaml` |
 
 ---
 
@@ -166,6 +180,13 @@ nginx -s reload   # Reload config without downtime
 ```bash
 caddy validate --config Caddyfile   # Validate configuration
 caddy reload --config Caddyfile     # Reload config without downtime
+```
+
+#### Traefik
+
+```bash
+traefik --configfile=traefik.yaml --dry-run   # Validate static config
+curl http://localhost:8080/api/rawdata | jq    # Inspect live config via dashboard API
 ```
 
 ---
