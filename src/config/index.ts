@@ -8,8 +8,11 @@ import type {
 
 const rootDir = process.cwd();
 
-const composeYaml = "compose.yaml";
-export const composeYamlLocation = join(rootDir, composeYaml);
+const composeProductionYaml = "compose.prod.yaml";
+export const composeProductionYamlLocation = join(
+    rootDir,
+    composeProductionYaml,
+);
 
 export const BANNER_FONT = "Standard";
 

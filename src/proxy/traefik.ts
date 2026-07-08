@@ -1,4 +1,4 @@
-import { composeYamlLocation, dockerServerConfig } from "../config";
+import { composeProductionYamlLocation, dockerServerConfig } from "../config";
 import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -48,27 +48,17 @@ export async function setupTraefik(config: Config) {
         config.webServerMode,
     );
 
-    if (!isFileExists(composeYamlLocation)) {
-        composeContent.networks = { app_network: {} };
+    if (!isFileExists(composeProductionYamlLocation)) {
         const composeYaml = dumpYaml(composeContent);
 
         await write({
-            fileLocation: composeYamlLocation,
+            fileLocation: composeProductionYamlLocation,
             fileContent: composeYaml,
         });
     } else {
-        const fileObject = (await loadYaml(composeYamlLocation)) as any;
-
-        if (!fileObject.networks) {
-            fileObject.networks = { app_network: {} };
-        } else {
-            if (!("app_network" in fileObject.networks)) {
-                fileObject.networks = {
-                    ...fileObject.networks,
-                    app_network: {},
-                };
-            }
-        }
+        const fileObject = (await loadYaml(
+            composeProductionYamlLocation,
+        )) as any;
 
         fileObject.services = {
             ...(fileObject.services || {}),
@@ -78,7 +68,7 @@ export async function setupTraefik(config: Config) {
         const updatedYaml = dumpYaml(fileObject);
 
         await write({
-            fileLocation: composeYamlLocation,
+            fileLocation: composeProductionYamlLocation,
             fileContent: updatedYaml,
         });
     }
