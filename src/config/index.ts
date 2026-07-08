@@ -42,7 +42,7 @@ export function dockerServerConfig(): DockerComposeConfig {
                     dockerfile: "Dockerfile",
                 },
                 restart: "unless-stopped",
-                env_file: [".env"],
+                env_file: [".env.production"],
                 networks: ["app_network"],
                 depends_on: { database: { condition: "service_healthy" } },
             },
