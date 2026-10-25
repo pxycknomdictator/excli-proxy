@@ -6,10 +6,10 @@ function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
     const traefik: DockerComposeConfig = {
         services: {
             traefik: {
-                image: "traefik:v3.6",
                 container_name: "traefik",
+                image: "traefik:${TRAEFIK_VERSION}",
                 restart: "unless-stopped",
-                ports: ["80:80", "8080:8080"],
+                ports: ["${TRAEFIK_PORT}:80", "${TRAEFIK_DASHBOARD_PORT}:8080"],
                 volumes: [
                     "/var/run/docker.sock:/var/run/docker.sock:ro",
                     "./traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro",

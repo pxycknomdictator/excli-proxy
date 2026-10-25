@@ -50,3 +50,28 @@ export function dockerServerConfig(): DockerComposeConfig {
     };
     return server;
 }
+
+export const envConfigs = {
+    nginx: { NGINX_VERSION: "1.29.7", NGINX_PORT: "80" },
+    caddy: { CADDY_VERSION: "2.11.2", CADDY_PORT: "80" },
+    traefik: {
+        TRAEFIK_VERSION: "v3.6",
+        TRAEFIK_PORT: "80",
+        TRAEFIK_DASHBOARD_PORT: "8080",
+    },
+};
+
+export const serverSections = {
+    nginx: {
+        main: "# Nginx Configuration",
+        mainKeys: ["NGINX_VERSION", "NGINX_PORT"],
+    },
+    caddy: {
+        main: "# Caddy Configuration",
+        mainKeys: ["CADDY_VERSION", "CADDY_PORT"],
+    },
+    traefik: {
+        main: "# Traefik Configuration",
+        mainKeys: ["TRAEFIK_VERSION", "TRAEFIK_PORT", "TRAEFIK_DASHBOARD_PORT"],
+    },
+};

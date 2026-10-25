@@ -6,10 +6,10 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
     const nginx: DockerComposeConfig = {
         services: {
             nginx: {
-                image: "nginx:1.29.7",
                 container_name: "nginx",
+                image: "nginx:${NGINX_VERSION}",
                 restart: "unless-stopped",
-                ports: ["80:80"],
+                ports: ["${NGINX_PORT}:80"],
                 volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"],
                 networks: ["app_network"],
                 depends_on: { server: { condition: "service_started" } },

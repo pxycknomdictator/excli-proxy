@@ -6,10 +6,10 @@ function generateCaddyDockerComposeYaml(mode: WEB_SERVER_MODE) {
     const caddy: DockerComposeConfig = {
         services: {
             caddy: {
-                image: "caddy:2.11.2",
                 container_name: "caddy",
+                image: "caddy:${CADDY_VERSION}",
                 restart: "unless-stopped",
-                ports: ["80:80"],
+                ports: ["${CADDY_PORT}:80"],
                 volumes: ["./caddy/Caddyfile:/etc/caddy/Caddyfile:ro"],
                 networks: ["app_network"],
                 depends_on: { server: { condition: "service_started" } },
