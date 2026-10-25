@@ -1,13 +1,15 @@
 import yaml from "js-yaml";
 import { existsSync } from "node:fs";
-import { cp, readFile, writeFile } from "node:fs/promises";
+import { appendFile, cp, readFile, writeFile } from "node:fs/promises";
 import { cancel } from "@clack/prompts";
 import type {
+    Config,
     COPY_FN_PROPS,
     DockerComposeConfig,
     GenerateFileArgs,
     INTERACTIVE_PROMPTS,
 } from "../types";
+import { envConfigs, serverSections } from "../config";
 
 export async function copy({ copyPath, targetDir }: COPY_FN_PROPS) {
     try {
@@ -56,6 +58,40 @@ export function generateOptions(options: INTERACTIVE_PROMPTS[]) {
         label: `${label} ${emoji}`,
         value: value,
     }));
+}
+
+export async function generateFile(fileArgs: GenerateFileArgs) {
+    const { fileLocation, fileContent } = fileArgs;
+    await writeFile(fileLocation, fileContent, "utf-8");
+}
+
+export async function appendExistsFile(fileArgs: GenerateFileArgs) {
+    const { fileLocation, fileContent } = fileArgs;
+    await appendFile(fileLocation, `\n${fileContent}`, "utf-8");
+}
+
+export function getEnvVariables(config: Config) {
+    const dockerEnvConfiguration = envConfigs[config.webServer];
+    return dockerEnvConfiguration;
+}
+
+export function formatEnvFiles(config: Config): {
+    envContent: string;
+    exEnvContent: string;
+    prodEnvContent: string;
+} {
+    const serverEnv = getEnvVariables(config);
+
+    const { main, mainKeys } = serverSections[config.webServer];
+    const env = [main, ...mainKeys.map((key) => `${key}=${serverEnv[key]}`)];
+    const prod = [main, ...mainKeys.map((key) => `${key}=${serverEnv[key]}`)];
+    const ex = [main, ...mainKeys.map((key) => `${key}=`)];
+
+    return {
+        envContent: env.join("\n"),
+        exEnvContent: ex.join("\n"),
+        prodEnvContent: prod.join("\n"),
+    };
 }
 
 export function terminate(message: string): never {

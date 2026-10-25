@@ -144,6 +144,9 @@ npx @excli/proxy --traefik --load-balancing
 
 - **nginx.conf / Caddyfile / traefik.yaml** - Production-ready proxy configuration
 - **compose.yaml** - Multi-service orchestration for your proxy + Express instances
+- **.env** - Local proxy configuration
+- **.env.example** - Environment variable template for team members
+- **.env.production** - Proxy configuration loaded by the production compose file
 
 ---
 

@@ -4,11 +4,19 @@ import type {
     DockerComposeConfig,
     INTERACTIVE_PROMPTS,
     WebServerList,
+    WEB_SERVER,
 } from "../types";
 
 const rootDir = process.cwd();
 
 const composeProductionYaml = "compose.prod.yaml";
+const envFileName = ".env";
+const envExampleFileName = ".env.example";
+const prodEnvFileName = ".env.production";
+
+export const envFileLocation = join(rootDir, envFileName);
+export const envExampleFileLocation = join(rootDir, envExampleFileName);
+export const prodEnvFileLocation = join(rootDir, prodEnvFileName);
 export const composeProductionYamlLocation = join(
     rootDir,
     composeProductionYaml,
@@ -51,7 +59,7 @@ export function dockerServerConfig(): DockerComposeConfig {
     return server;
 }
 
-export const envConfigs = {
+export const envConfigs: Record<WEB_SERVER, Record<string, string>> = {
     nginx: { NGINX_VERSION: "1.29.7", NGINX_PORT: "80" },
     caddy: { CADDY_VERSION: "2.11.2", CADDY_PORT: "80" },
     traefik: {
