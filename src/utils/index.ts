@@ -9,7 +9,13 @@ import type {
     GenerateFileArgs,
     INTERACTIVE_PROMPTS,
 } from "../types";
-import { envConfigs, serverSections } from "../config";
+import {
+    envConfigs,
+    envExampleFileLocation,
+    envFileLocation,
+    prodEnvFileLocation,
+    serverSections,
+} from "../config";
 
 export async function copy({ copyPath, targetDir }: COPY_FN_PROPS) {
     try {
@@ -67,7 +73,7 @@ export async function generateFile(fileArgs: GenerateFileArgs) {
 
 export async function appendExistsFile(fileArgs: GenerateFileArgs) {
     const { fileLocation, fileContent } = fileArgs;
-    await appendFile(fileLocation, `\n${fileContent}`, "utf-8");
+    await appendFile(fileLocation, fileContent, "utf-8");
 }
 
 export function getEnvVariables(config: Config) {
@@ -83,9 +89,23 @@ export function formatEnvFiles(config: Config): {
     const serverEnv = getEnvVariables(config);
 
     const { main, mainKeys } = serverSections[config.webServer];
-    const env = [main, ...mainKeys.map((key) => `${key}=${serverEnv[key]}`)];
-    const prod = [main, ...mainKeys.map((key) => `${key}=${serverEnv[key]}`)];
-    const ex = [main, ...mainKeys.map((key) => `${key}=`)];
+    const hasExistingEnvFile =
+        existsSync(envFileLocation) ||
+        existsSync(envExampleFileLocation) ||
+        existsSync(prodEnvFileLocation);
+
+    const emptyLine = hasExistingEnvFile ? ["\n"] : [];
+    const env = [
+        ...emptyLine,
+        main,
+        ...mainKeys.map((key) => `${key}=${serverEnv[key]}`),
+    ];
+    const prod = [
+        ...emptyLine,
+        main,
+        ...mainKeys.map((key) => `${key}=${serverEnv[key]}`),
+    ];
+    const ex = [...emptyLine, main, ...mainKeys.map((key) => `${key}=`)];
 
     return {
         envContent: env.join("\n"),
