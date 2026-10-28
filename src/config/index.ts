@@ -9,16 +9,13 @@ import type {
 
 const rootDir = process.cwd();
 
-const composeProductionYaml = "compose.prod.yaml";
+const composeYaml = "compose.yaml";
 const envFileName = ".env";
 const prodEnvFileName = ".env.production";
 
 export const envFileLocation = join(rootDir, envFileName);
 export const prodEnvFileLocation = join(rootDir, prodEnvFileName);
-export const composeProductionYamlLocation = join(
-    rootDir,
-    composeProductionYaml,
-);
+export const composeYamlLocation = join(rootDir, composeYaml);
 
 export const BANNER_FONT = "Standard";
 

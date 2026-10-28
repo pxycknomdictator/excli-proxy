@@ -1,4 +1,4 @@
-import { composeProductionYamlLocation, dockerServerConfig } from "../config";
+import { composeYamlLocation, dockerServerConfig } from "../config";
 import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -36,17 +36,15 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
 export async function setupNginx(config: Config) {
     const composeContent = generateNginxDockerComposeYaml(config.webServerMode);
 
-    if (!isFileExists(composeProductionYamlLocation)) {
+    if (!isFileExists(composeYamlLocation)) {
         const composeYaml = dumpYaml(composeContent);
 
         await write({
-            fileLocation: composeProductionYamlLocation,
+            fileLocation: composeYamlLocation,
             fileContent: composeYaml,
         });
     } else {
-        const fileObject = (await loadYaml(
-            composeProductionYamlLocation,
-        )) as any;
+        const fileObject = (await loadYaml(composeYamlLocation)) as any;
 
         fileObject.services = {
             ...(fileObject.services || {}),
@@ -56,7 +54,7 @@ export async function setupNginx(config: Config) {
         const updatedYaml = dumpYaml(fileObject);
 
         await write({
-            fileLocation: composeProductionYamlLocation,
+            fileLocation: composeYamlLocation,
             fileContent: updatedYaml,
         });
     }
