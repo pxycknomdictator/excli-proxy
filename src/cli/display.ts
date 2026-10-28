@@ -17,11 +17,13 @@ export function displayBanner(): void {
 
 export function showCompletionMessage(config: Config) {
     const { webServerMode } = config;
-    const displayNote =
-        webServerMode === "load_balancing"
-            ? `docker compose up --scale server=4 -d`
-            : `docker compose up -d`;
 
-    note(displayNote, "🚀 Ready to start");
+    const commands = [
+        webServerMode === "load_balancing"
+            ? "docker compose up --scale server=4 -d"
+            : "docker compose up -d",
+    ];
+
+    note(commands.join("\n"), "🚀 Ready to start");
     outro("Happy coding! ✨");
 }
