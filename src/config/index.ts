@@ -11,11 +11,9 @@ const rootDir = process.cwd();
 
 const composeProductionYaml = "compose.prod.yaml";
 const envFileName = ".env";
-const envExampleFileName = ".env.example";
 const prodEnvFileName = ".env.production";
 
 export const envFileLocation = join(rootDir, envFileName);
-export const envExampleFileLocation = join(rootDir, envExampleFileName);
 export const prodEnvFileLocation = join(rootDir, prodEnvFileName);
 export const composeProductionYamlLocation = join(
     rootDir,

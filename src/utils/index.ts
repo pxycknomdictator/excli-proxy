@@ -11,7 +11,6 @@ import type {
 } from "../types";
 import {
     envConfigs,
-    envExampleFileLocation,
     envFileLocation,
     prodEnvFileLocation,
     serverSections,
@@ -83,16 +82,13 @@ export function getEnvVariables(config: Config) {
 
 export function formatEnvFiles(config: Config): {
     envContent: string;
-    exEnvContent: string;
     prodEnvContent: string;
 } {
     const serverEnv = getEnvVariables(config);
 
     const { main, mainKeys } = serverSections[config.webServer];
     const hasExistingEnvFile =
-        existsSync(envFileLocation) ||
-        existsSync(envExampleFileLocation) ||
-        existsSync(prodEnvFileLocation);
+        existsSync(envFileLocation) || existsSync(prodEnvFileLocation);
 
     const emptyLine = hasExistingEnvFile ? ["\n"] : [];
     const env = [
@@ -105,13 +101,8 @@ export function formatEnvFiles(config: Config): {
         main,
         ...mainKeys.map((key) => `${key}=${serverEnv[key]}`),
     ];
-    const ex = [...emptyLine, main, ...mainKeys.map((key) => `${key}=`)];
 
-    return {
-        envContent: env.join("\n"),
-        exEnvContent: ex.join("\n"),
-        prodEnvContent: prod.join("\n"),
-    };
+    return { envContent: env.join("\n"), prodEnvContent: prod.join("\n") };
 }
 
 export function terminate(message: string): never {

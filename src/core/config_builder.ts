@@ -1,12 +1,7 @@
 import { join } from "node:path";
 import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import {
-    envExampleFileLocation,
-    envFileLocation,
-    prodEnvFileLocation,
-    webServerList,
-} from "../config";
+import { envFileLocation, prodEnvFileLocation, webServerList } from "../config";
 import { appendExistsFile, copy, formatEnvFiles, generateFile } from "../utils";
 import { validateTemplate } from "./validators";
 import type { Config, GenerateFileArgs } from "../types";
@@ -36,10 +31,9 @@ export async function setupWebServer(
 }
 
 async function setupEnv(config: Config): Promise<void> {
-    const { envContent, exEnvContent, prodEnvContent } = formatEnvFiles(config);
+    const { envContent, prodEnvContent } = formatEnvFiles(config);
     const dotenvs: GenerateFileArgs[] = [
         { fileLocation: envFileLocation, fileContent: envContent },
-        { fileLocation: envExampleFileLocation, fileContent: exEnvContent },
         { fileLocation: prodEnvFileLocation, fileContent: prodEnvContent },
     ];
 
