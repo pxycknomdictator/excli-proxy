@@ -50,6 +50,7 @@ export function dockerServerConfig(): DockerComposeConfig {
                 depends_on: { database: { condition: "service_healthy" } },
             },
         },
+        networks: { app_network: {} },
     };
     return server;
 }

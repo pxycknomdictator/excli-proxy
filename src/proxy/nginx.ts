@@ -28,6 +28,7 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
             ...nginx.services,
             ...server.services,
         },
+        networks: server.networks,
     };
 
     return merged;
@@ -49,6 +50,10 @@ export async function setupNginx(config: Config) {
         fileObject.services = {
             ...(fileObject.services || {}),
             ...composeContent.services,
+        };
+        fileObject.networks = {
+            ...(fileObject.networks || {}),
+            ...composeContent.networks,
         };
 
         const updatedYaml = dumpYaml(fileObject);

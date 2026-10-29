@@ -38,6 +38,7 @@ function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
             ...traefik.services,
             ...server.services,
         },
+        networks: server.networks,
     };
 
     return merged;
@@ -61,6 +62,10 @@ export async function setupTraefik(config: Config) {
         fileObject.services = {
             ...(fileObject.services || {}),
             ...composeContent.services,
+        };
+        fileObject.networks = {
+            ...(fileObject.networks || {}),
+            ...composeContent.networks,
         };
 
         const updatedYaml = dumpYaml(fileObject);
