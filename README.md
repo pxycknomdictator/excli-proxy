@@ -1,131 +1,59 @@
 ## Proxy CLI Tool
 
-A powerful reverse proxy and load balancing configuration generator for Express.js applications.
+A CLI generator for reverse proxy and load balancing configurations for Express.js applications, with support for Nginx, Caddy, and Traefik.
 
 [![npm version](https://badge.fury.io/js/%40excli%2Fproxy.svg)](https://badge.fury.io/js/%40excli%2Fproxy)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
----
+## Features
 
-### Why Choose This Generator?
+- Reverse proxy configuration for Express.js apps
+- Load balancing across multiple Express instances
+- Nginx, Caddy, and Traefik support
+- Security headers included by default
+- Docker Compose ready
+- Interactive mode or quick flag-based setup
 
-A CLI tool for generating reverse proxy and load balancing configurations for Express.js applications — with support for Nginx, Caddy, and Traefik, and two simple modes to get you running fast.
+## Requirements
 
-**Built for modern backend development:**
+- Node.js 20 or higher
+- Docker Desktop or Docker Engine
 
-- 🔀 Reverse proxy configuration for Express.js apps
-- ⚖️ Load balancing across multiple Express instances
-- 🌐 Nginx, Caddy, and Traefik support
-- 🛡️ Security headers included by default
-- 🐳 Docker Compose ready
-- 🎯 **Interactive mode** for guided setup
-- 🎨 **Simple flag-based CLI** for quick configuration
+## Quick Start
 
----
-
-### Getting Started
-
-#### Interactive Mode (Recommended for Beginners)
-
-Simply run the command and follow the prompts:
+### Interactive mode
 
 ```bash
 npx @excli/proxy
 ```
 
-The interactive mode will guide you through selecting:
+You'll be prompted to choose a proxy server (Nginx, Caddy, or Traefik) and a mode (reverse proxy or load balancing).
 
-- Proxy server (Nginx, Caddy, or Traefik)
-- Mode (Reverse Proxy or Load Balancing)
-
-#### Quick Setup with Flags
-
-For experienced users who know what they want:
+### Flag mode
 
 ```bash
-# Nginx reverse proxy
 npx @excli/proxy --nginx --reverse-proxy
-
-# Caddy load balancing
-npx @excli/proxy --caddy --load-balancing
-
-# Traefik reverse proxy
-npx @excli/proxy --traefik --reverse-proxy
 ```
 
-**Or install globally:**
+### Global install
 
 ```bash
 npm install -g @excli/proxy
 
-# Interactive mode
-excli-proxy
-
-# With flags
-excli-proxy --nginx --reverse-proxy
-excli-proxy --caddy --load-balancing
-excli-proxy --traefik --reverse-proxy
+excli-proxy                              # interactive
+excli-proxy --caddy --load-balancing     # with flags
 ```
 
-#### Requirements
+## Flags
 
-- Node.js 20 or higher
-- Docker Desktop or Docker Engine (required for running generated configurations)
+| Category     | Flags                                 |
+| ------------ | ------------------------------------- |
+| Proxy server | `--nginx`, `--caddy`, `--traefik`     |
+| Mode         | `--reverse-proxy`, `--load-balancing` |
 
----
-
-### Usage
-
-#### Two Ways to Use
-
-**1. Interactive Mode (Easiest)**
-
-```bash
-npx @excli/proxy
-```
-
-Just answer the prompts and you're done!
-
-**2. Flag-Based Mode (Fastest)**
-
-```bash
-# Nginx with reverse proxy
-npx @excli/proxy --nginx --reverse-proxy
-
-# Nginx with load balancing
-npx @excli/proxy --nginx --load-balancing
-
-# Caddy with reverse proxy
-npx @excli/proxy --caddy --reverse-proxy
-
-# Caddy with load balancing
-npx @excli/proxy --caddy --load-balancing
-
-# Traefik with reverse proxy
-npx @excli/proxy --traefik --reverse-proxy
-
-# Traefik with load balancing
-npx @excli/proxy --traefik --load-balancing
-```
-
----
-
-### Command-Line Flags
-
-#### Proxy Server Flags
-
-- `--nginx` - Use Nginx as the proxy server
-- `--caddy` - Use Caddy as the proxy server
-- `--traefik` - Use Traefik as the proxy server
-
-#### Mode Flags
-
-- `--reverse-proxy` - Generate a reverse proxy configuration
-- `--load-balancing` - Generate a load balancing configuration
-
-**All valid combinations:**
+Every proxy server works with every mode:
 
 ```bash
 npx @excli/proxy --nginx --reverse-proxy
@@ -136,114 +64,71 @@ npx @excli/proxy --traefik --reverse-proxy
 npx @excli/proxy --traefik --load-balancing
 ```
 
----
+## Generated Files
 
-### What's Included
+| File                                        | Purpose                                                 |
+| ------------------------------------------- | ------------------------------------------------------- |
+| `nginx.conf` / `Caddyfile` / `traefik.yaml` | Proxy configuration for your chosen server              |
+| `compose.yaml`                              | Multi-service setup for the proxy and Express instances |
+| `.env`                                      | Local proxy configuration                               |
+| `.env.production`                           | Proxy configuration used by the production setup        |
 
-#### Generated Files
+## Proxy Servers
 
-- **nginx.conf / Caddyfile / traefik.yaml** - Production-ready proxy configuration
-- **compose.yaml** - Multi-service orchestration for your proxy + Express instances
-- **.env** - Local proxy configuration
-- **.env.example** - Environment variable template for team members
-- **.env.production** - Proxy configuration loaded by the production compose file
+| Proxy   | SSL/TLS                | Config File    |
+| ------- | ---------------------- | -------------- |
+| Nginx   | Manual cert config     | `nginx.conf`   |
+| Caddy   | Automatic HTTPS (ACME) | `Caddyfile`    |
+| Traefik | Automatic HTTPS (ACME) | `traefik.yaml` |
 
----
-
-#### Proxy Server Options
-
-| Proxy       | SSL/TLS                | Modes                         | Config File    |
-| ----------- | ---------------------- | ----------------------------- | -------------- |
-| **Nginx**   | Manual cert config     | reverse-proxy, load-balancing | `nginx.conf`   |
-| **Caddy**   | Automatic HTTPS (ACME) | reverse-proxy, load-balancing | `Caddyfile`    |
-| **Traefik** | Automatic HTTPS (ACME) | reverse-proxy, load-balancing | `traefik.yaml` |
-
----
-
-### Common Commands
-
-#### Running Your Proxy
+## Running Your Proxy
 
 ```bash
-docker compose up             # Start proxy and Express instances
-docker compose down           # Stop all services
-docker compose up -d          # Start services in detached mode
-docker compose scale server=5 # Scale Express instances dynamically
+docker compose up                      # start proxy and Express instances
+docker compose up -d                   # start in detached mode
+docker compose up --scale server=5     # run 5 Express instances
+docker compose down                    # stop all services
+docker compose logs                    # view logs
 ```
 
-#### Nginx
+Once running, your Express app is available through the proxy at `http://localhost`. All upstream instances are registered automatically, and health checks skip unhealthy ones.
+
+## Config Validation
 
 ```bash
-nginx -t          # Test configuration for syntax errors
-nginx -s reload   # Reload config without downtime
+nginx -t                                      # Nginx: test config syntax
+nginx -s reload                               # Nginx: reload without downtime
+caddy validate --config Caddyfile             # Caddy: validate config
+caddy reload --config Caddyfile               # Caddy: reload without downtime
+traefik --configfile=traefik.yaml --dry-run   # Traefik: validate static config
 ```
 
-#### Caddy
-
-```bash
-caddy validate --config Caddyfile   # Validate configuration
-caddy reload --config Caddyfile     # Reload config without downtime
-```
-
-#### Traefik
-
-```bash
-traefik --configfile=traefik.yaml --dry-run   # Validate static config
-curl http://localhost:8080/api/rawdata | jq    # Inspect live config via dashboard API
-```
-
----
-
-### Managing Your Proxy
-
-After running `docker compose up`, your Express app will be accessible through the proxy at `http://localhost`.
-
-- All upstream instances are automatically registered
-- Health checks are configured out of the box to skip unhealthy instances
-- Logs are routed through Docker for easy inspection with `docker compose logs`
-
----
-
-### Troubleshooting
+## Troubleshooting
 
 **Port 80 or 443 already in use?**
-Check if another web server is running on those ports, or update the port mappings in your `compose.yaml`.
+Stop the other web server, or change the port mappings in `compose.yaml`.
 
 **502 Bad Gateway?**
-Your Express app instances may not be running or are listening on the wrong port. Verify the port in your `compose.yaml` matches your Express app's listen port.
+Your Express instances may not be running or are listening on a different port. Make sure the port in `compose.yaml` matches your app's listen port.
 
 **Caddy not provisioning SSL automatically?**
-Ensure your domain is publicly accessible and DNS is pointing to your server. Caddy requires a reachable domain for Let's Encrypt ACME challenges.
+Your domain must be publicly reachable with DNS pointing to your server, since Caddy needs it for Let's Encrypt ACME challenges.
 
 **Interactive mode not working?**
-Make sure you're using the latest version: `npm install -g @excli/proxy@latest`
+Update to the latest version: `npm install -g @excli/proxy@latest`
 
-**Need help?**
+**Still stuck?**
 Open an issue on GitHub with details about your problem.
 
----
+## Contributing
 
-### Contributing
+Contributions are welcome: bug reports, feature ideas, documentation fixes, and pull requests.
 
-Contributions are welcome! Feel free to:
+## License
 
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+ISC. See the `LICENSE` file for details.
 
----
+## Author
 
-### License
-
-ISC License - see LICENSE file for details.
-
-### Author
-
-**Noman**  
-📧 [pxycknomdictator@gmail.com](mailto:pxycknomdictator@gmail.com)  
-🔗 [@pxycknomdictator](https://github.com/pxycknomdictator)
-
----
-
-**Happy coding! Built with ❤️ for developers who value productivity.**
+**Noman**
+[pxycknomdictator@gmail.com](mailto:pxycknomdictator@gmail.com) | [@pxycknomdictator](https://github.com/pxycknomdictator)
