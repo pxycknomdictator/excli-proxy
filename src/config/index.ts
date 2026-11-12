@@ -1,4 +1,5 @@
-import { join } from "node:path";
+import { cwd } from "node:process";
+import { basename, join } from "node:path";
 import { setupCaddy, setupNginx, setupTraefik } from "../proxy";
 import type {
     DockerComposeConfig,
@@ -36,6 +37,12 @@ export const webServerList: WebServerList = {
     traefik: setupTraefik,
 };
 
+export function getDirectoryName() {
+    const word = basename(cwd());
+    const directory = word.includes("-") ? word.replace("-", "_") : word;
+    return directory;
+}
+
 export function dockerServerConfig(): DockerComposeConfig {
     const server: DockerComposeConfig = {
         services: {
@@ -46,11 +53,11 @@ export function dockerServerConfig(): DockerComposeConfig {
                 },
                 restart: "unless-stopped",
                 env_file: [".env.production"],
-                networks: ["app_network"],
+                networks: [getDirectoryName()],
                 depends_on: { database: { condition: "service_healthy" } },
             },
         },
-        networks: { app_network: {} },
+        networks: { [getDirectoryName()]: {} },
     };
     return server;
 }

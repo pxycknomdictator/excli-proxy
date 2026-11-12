@@ -1,4 +1,8 @@
-import { composeYamlLocation, dockerServerConfig } from "../config";
+import {
+    composeYamlLocation,
+    dockerServerConfig,
+    getDirectoryName,
+} from "../config";
 import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -11,7 +15,7 @@ function generateNginxDockerComposeYaml(mode: WEB_SERVER_MODE) {
                 restart: "unless-stopped",
                 ports: ["${NGINX_PORT}:80"],
                 volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"],
-                networks: ["app_network"],
+                networks: [getDirectoryName()],
                 depends_on: { server: { condition: "service_started" } },
             },
         },

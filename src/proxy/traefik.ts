@@ -1,4 +1,8 @@
-import { composeYamlLocation, dockerServerConfig } from "../config";
+import {
+    composeYamlLocation,
+    dockerServerConfig,
+    getDirectoryName,
+} from "../config";
 import { isFileExists, write, loadYaml, dumpYaml } from "../utils";
 import type { Config, DockerComposeConfig, WEB_SERVER_MODE } from "../types";
 
@@ -14,7 +18,7 @@ function generateTraefikDockerComposeYaml(mode: WEB_SERVER_MODE) {
                     "/var/run/docker.sock:/var/run/docker.sock:ro",
                     "./traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro",
                 ],
-                networks: ["app_network"],
+                networks: [getDirectoryName()],
                 depends_on: { server: { condition: "service_started" } },
             },
         },

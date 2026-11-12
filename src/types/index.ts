@@ -36,7 +36,7 @@ export type DockerComposeConfig = {
         };
     };
     networks?: {
-        app_network: {};
+        [key: string]: {};
     };
 };
 
