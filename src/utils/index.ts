@@ -94,12 +94,12 @@ export function formatEnvFiles(config: Config): {
     const env = [
         ...emptyLine,
         main,
-        ...mainKeys.map((key) => `${key}=${serverEnv[key]}`),
+        ...mainKeys.map((key) => `${key}="${serverEnv[key]}"`),
     ];
     const prod = [
         ...emptyLine,
         main,
-        ...mainKeys.map((key) => `${key}=${serverEnv[key]}`),
+        ...mainKeys.map((key) => `${key}="${serverEnv[key]}"`),
     ];
 
     return { envContent: env.join("\n"), prodEnvContent: prod.join("\n") };
